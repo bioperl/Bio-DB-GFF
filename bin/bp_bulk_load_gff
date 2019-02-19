@@ -653,19 +653,19 @@ foreach (@fasta_files_to_be_unlinked) {
 }
 
 warn "Building summary statistics for coverage histograms...\n";
-my (@args,$AUTH);
+my (@args,$AUTH2);
 if (defined $USER) {
   push @args,(-user=>$USER);
-  $AUTH .= " -u$USER";
+  $AUTH2 .= " -u$USER";
 }
 if (defined $PASSWORD) {
   push @args,(-pass=>$PASSWORD);
-  $AUTH .= " -p$PASSWORD";
+  $AUTH2 .= " -p$PASSWORD";
 }
 push @args,(-preferred_groups=>[split(/[,\s+]+/,$GROUP_TAG)]) if defined $GROUP_TAG;
-my $db = Bio::DB::GFF->new(-adaptor=>"dbi::$ADAPTOR",-dsn => $DSN,@args)
+my $db2 = Bio::DB::GFF->new(-adaptor=>"dbi::$ADAPTOR",-dsn => $DSN,@args)
   or die "Can't open database: ",Bio::DB::GFF->error,"\n";
-$db->build_summary_statistics;
+$db2->build_summary_statistics;
 
 exit 0;
 

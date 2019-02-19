@@ -8,9 +8,9 @@ use Data::Dumper;
 BEGIN {
     use lib '.';
     use Bio::Root::Test;
-    
+
     test_begin(-tests => 275);
-	
+
 	use_ok('Bio::DB::GFF');
 }
 
@@ -18,10 +18,11 @@ my $fasta_files = test_input_file('dbfa');
 my $gff_file1   = test_input_file('test.gff');
 my $gff_file2   = test_input_file('test.gff3');
 
-my $build = Module::Build->current;
-my $test_dsn = $build->notes('test_dsn');
+# my $build = Module::Build->current;
+# my $test_dsn = $build->notes('test_dsn');
 
-my $adaptor = $test_dsn ? $test_dsn : 'memory';
+# my $adaptor = $test_dsn ? $test_dsn : 'memory';
+my $adaptor = 'memory';
 $adaptor    = shift if @ARGV;
 
 if ($adaptor =~ /sqlite/i) {
@@ -29,25 +30,25 @@ if ($adaptor =~ /sqlite/i) {
 }
 
 my @args;
-if ($adaptor =~ /^dbi/) {
-  my $cfg = {};
-  $cfg->{dbd_driver} = $build->notes('dbd_driver');
-  $cfg->{test_db} = $build->notes('test_db');
-  $cfg->{test_host} = $build->notes('test_host');
-  $cfg->{test_user} = $build->notes('test_user');
-  $cfg->{test_pass} = $build->notes('test_pass');
-  $cfg->{test_dsn} = $build->notes('test_dsn');
-  
-  $adaptor = "dbi::$cfg->{dbd_driver}" if $cfg->{dbd_driver};
-  @args = ( '-adaptor'  => $adaptor,
-	    '-dsn'     => $cfg->{test_dsn},
-	  );
-  push @args,('-user' => $cfg->{test_user}) if $cfg->{test_user};
-  push @args,('-pass' => $cfg->{test_pass}) if $cfg->{test_pass};
-} else {
-  @args = ('-adaptor' => $adaptor,
-	   '-create'  => 1);
-}
+# if ($adaptor =~ /^dbi/) {
+#   my $cfg = {};
+#   $cfg->{dbd_driver} = $build->notes('dbd_driver');
+#   $cfg->{test_db} = $build->notes('test_db');
+#   $cfg->{test_host} = $build->notes('test_host');
+#   $cfg->{test_user} = $build->notes('test_user');
+#   $cfg->{test_pass} = $build->notes('test_pass');
+#   $cfg->{test_dsn} = $build->notes('test_dsn');
+
+#   $adaptor = "dbi::$cfg->{dbd_driver}" if $cfg->{dbd_driver};
+#   @args = ( '-adaptor'  => $adaptor,
+# 	    '-dsn'     => $cfg->{test_dsn},
+# 	  );
+#   push @args,('-user' => $cfg->{test_user}) if $cfg->{test_user};
+#   push @args,('-pass' => $cfg->{test_pass}) if $cfg->{test_pass};
+# } else {
+@args = ('-adaptor' => $adaptor,
+   '-create'  => 1);
+# }
 
 push @args,('-aggregators' => ['transcript','processed_transcript']);
 
@@ -65,7 +66,7 @@ for my $FILE ($gff_file1,$gff_file2) {
   $db->preferred_groups( [ 'transcript', 'gene', 'mRNA' ] );
   my @pg = $db->preferred_groups;
   is(scalar(@pg), 3);
-  is($pg[1], 'gene'); 
+  is($pg[1], 'gene');
 
   # exercise the loader
   ok($db->initialize(1));
@@ -88,13 +89,13 @@ for my $FILE ($gff_file1,$gff_file2) {
   is($segment1->start,1);
   is($segment1->end,37450);
   is($segment1->strand,1);
-  
+
   my $segment2  = $db->segment('Contig1',1=>1000);
   is($segment2->length,1000);
   is($segment2->start,1);
   is($segment2->end,1000);
   is($segment2->strand,1);
-  
+
   my $segment3 = $db->segment('Contig1',10=>1);
   is($segment3->start,10);
   is($segment3->end,1);
@@ -275,7 +276,7 @@ for my $FILE ($gff_file1,$gff_file2) {
     $last = $_->start;
   }
   ok(!$inconsistency);
-  
+
   # relative addressing in aggregated features
   my $transcript1 = $db->segment($features[0]);
   $transcript1->ref($features[0]);
@@ -421,10 +422,10 @@ SKIP: {
       skip("delete_groups() not implemented by this adaptor",2);
     }
   }
-  
+
   SKIP: {
 	test_skip(-tests => 1, -excludes_os => 'mswin');
-	
+
 	# test ability to pass adaptors across a fork
 	if (my $child = open(F,"-|")) { # parent reads from child
 		ok(scalar <F>);
