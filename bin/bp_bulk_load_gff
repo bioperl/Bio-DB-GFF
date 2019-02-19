@@ -50,7 +50,7 @@ FASTA format files are distinguished from GFF files by their filename
 extensions.  Files ending in .fa, .fasta, .fast, .seq, .dna and their
 uppercase variants are treated as FASTA files.  Everything else is
 treated as a GFF file.  If you wish to load -fasta files from STDIN,
-then use the -f command-line swith with an argument of '-', as in 
+then use the -f command-line swith with an argument of '-', as in
 
     gunzip my_data.fa.gz | bp_fast_load_gff.pl -d test -f -
 
@@ -72,9 +72,9 @@ must be a power of 10.
 
 Note that Windows users must use the --create option.
 
-If the list of GFF or fasta files exceeds the kernel limit for the 
-maximum number of command-line arguments, use the 
---long_list /path/to/files option. 
+If the list of GFF or fasta files exceeds the kernel limit for the
+maximum number of command-line arguments, use the
+--long_list /path/to/files option.
 
 
 =head1 COMMAND-LINE OPTIONS
@@ -87,7 +87,7 @@ e.g. -d instead of --database.
    --create              Reinitialize/create data tables without asking
    --user                Username to log in as
    --fasta               File or directory containing fasta files to load
-   --long_list           Directory containing a very large number of 
+   --long_list           Directory containing a very large number of
                          GFF and/or FASTA files
    --password            Password to use for authentication
                            (Does not work with Postgres, password must be
@@ -156,7 +156,7 @@ sub do_initialize {
   my $self = shift;
   my $erase = shift;
   $self->drop_all if $erase;
-                                                                                
+
   my $dbh = $self->features_db;
   my $schema = $self->schema;
   foreach my $table_name ($self->tables) {
@@ -245,7 +245,7 @@ $DSN=~s/;host=/:/i; #cater for dsn in the form of "dbi:mysql:database=$dbname;ho
 
 my($DBI,$DBD,$DBNAME,$HOST)=split /:/,$DSN;
 $DBNAME=$DSN unless $DSN=~/:/;
-$ADAPTOR ||= $DBD; 
+$ADAPTOR ||= $DBD;
 $ADAPTOR ||= 'mysql';
 
 if ($DBD eq 'Pg') {
@@ -290,7 +290,7 @@ if (defined $PASSWORD) {
 }
 
 if (defined $HOST) {
-  $AUTH .= " -h$HOST";  
+  $AUTH .= " -h$HOST";
 }
 if (defined $DBNAME) {
   if ( $use_mysql or $use_mysqlcmap ) {
@@ -425,7 +425,7 @@ unless (!$use_mysqlcmap or
 	  require Bio::GMOD::CMap::Utils;
 	  Bio::GMOD::CMap::Utils->import('next_number');
 	  1;
-	} 
+	}
        ) {
   print STDERR "Error loading Bio::GMOD::CMap::Utils\n";
 }
@@ -530,7 +530,7 @@ while (<>) {
 				     )
 	or die 'No feature id';
       my $direction = $strand eq '-' ? -1:1;
-      $FH{ FGROUP() }->print(    
+      $FH{ FGROUP() }->print(
 			     join("\t",$feature_id,$feature_id,'NULL',0, $group_name->[$i],0,0,'NULL',1,$direction, $group_class->[$i],)
 			     ,"\n"
 			    ) unless $DONE{"G$gid"}++;
@@ -574,7 +574,7 @@ for my $file (@fasta) {
   unlink $file if $tmpfiles{$file};
 }
 
-if ($use_pg) { 
+if ($use_pg) {
   $FH{FDATA()                }->print("\\.\n\n");
   $FH{FTYPE()                }->print("\\.\n\n");
   $FH{FGROUP()               }->print("\\.\n\n");
@@ -613,7 +613,7 @@ elsif( $use_mysql or $use_mysqlcmap ) {
   $start = time();
 
   my $success = 1;
-  my $TERMINATEDBY = $bWINDOWS ? q( LINES TERMINATED BY '\r\n') : ''; 
+  my $TERMINATEDBY = $bWINDOWS ? q( LINES TERMINATED BY '\r\n') : '';
   for my $f (@files) {
     my $table = function_to_table($f,$ADAPTOR);
     my $sql = join ('; ',
