@@ -21,6 +21,7 @@ Bio::DB::GFF::Feature-E<gt>target() method.
 =cut
 
 package Bio::DB::GFF::Homol;
+
 use strict;
 
 use base qw(Bio::DB::GFF::Segment);

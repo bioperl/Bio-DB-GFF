@@ -25,6 +25,7 @@ replacement for the -name and -class arguments.
 =cut
 
 package Bio::DB::GFF::Featname;
+
 use strict;
 use base qw(Bio::Root::RootI);
 

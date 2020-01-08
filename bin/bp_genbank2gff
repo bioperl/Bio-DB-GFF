@@ -69,6 +69,7 @@ disclaimers of warranty.
 =cut
 
 package Bio::DB::GFF::Adaptor::biofetch_to_stdout;
+
 use CGI 'escape';
 use Bio::DB::GFF::Util::Rearrange;
 use Bio::DB::GFF::Adaptor::biofetch;

@@ -34,6 +34,7 @@ it under the same terms as Perl itself.
 =cut
 
 package Bio::DB::GFF::Adaptor::berkeleydb::iterator;
+
 use strict;
 use DB_File qw(R_FIRST R_NEXT);
 

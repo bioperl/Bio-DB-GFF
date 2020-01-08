@@ -34,6 +34,7 @@ it under the same terms as Perl itself.
 =cut
 
 package Bio::DB::GFF::Adaptor::dbi::iterator;
+
 use strict;
 use Bio::Root::Version;
 

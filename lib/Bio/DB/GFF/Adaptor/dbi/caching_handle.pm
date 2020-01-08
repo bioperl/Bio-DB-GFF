@@ -200,6 +200,7 @@ sub dbi_quote {
 }
 
 package Bio::DB::GFF::Adaptor::dbi::faux_dbh;
+
 use vars '$AUTOLOAD';
 
 sub new {

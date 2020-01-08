@@ -3824,6 +3824,7 @@ END
 
 
 package Bio::DB::GFF::ID_Iterator;
+
 use strict;
 
 use base qw(Bio::Root::Root);
